@@ -1,0 +1,1 @@
+django-html-field provides a HTML sanitization and tag stripping either at the database level or at the form level, with no dependencies outside of the standard library.
