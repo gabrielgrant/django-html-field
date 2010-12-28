@@ -1,12 +1,12 @@
 
 
-def make_toolbar_config(processor, exclude_tags=('div',), extra_styles=None, show_source=True):
+def make_toolbar_config(allow_tags, exclude_tags=('div',), extra_styles=None, show_source=True):
 	""" output a CKEditor menu definition, given an html processor """
 	if not exclude_tags:
 		exclude_tags = []
 	
 	def allowed(tag):
-		return tag in processor.allow_tags and not in exclude_tags
+		return tag in allow_tags and not in exclude_tags
 	
 	# do format_tags
 	format_tags = 'p h1 h2 h3 h4 h5 h6 pre address'.split()
@@ -39,7 +39,7 @@ def make_toolbar_config(processor, exclude_tags=('div',), extra_styles=None, sho
 	# do toolbar
 	toolbar_maps = [
 		[
-			(None, ['Cut','Copy','Paste'),
+			(None, ['Cut','Copy','Paste']),
 			(None, ['-']),
 			(None, ['Undo','Redo','RemoveFormat']),  # Source may go here
 		],
