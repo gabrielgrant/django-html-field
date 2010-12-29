@@ -6,7 +6,7 @@ def make_toolbar_config(allow_tags, exclude_tags=('div',), extra_styles=None, sh
 		exclude_tags = []
 	
 	def allowed(tag):
-		return tag in allow_tags and not in exclude_tags
+		return tag in allow_tags and tag not in exclude_tags
 	
 	# do format_tags
 	format_tags = 'p h1 h2 h3 h4 h5 h6 pre address'.split()
@@ -15,6 +15,8 @@ def make_toolbar_config(allow_tags, exclude_tags=('div',), extra_styles=None, sh
 	# do styles (name, tag, styles_dict, attributes_dict)
 	# name and element are required
 	# styles_dict and attributes_dict are optional dictionaries
+	if extra_styles is None:
+		extra_styles = []
 	style_map = extra_styles + [
 		('Big', 'big'),
 		('Small', 'small'),
@@ -66,19 +68,21 @@ def make_toolbar_config(allow_tags, exclude_tags=('div',), extra_styles=None, sh
 		],
 	]
 	if show_source:
-		toolbar_map[0][-1][1].append((None, 'Source'))
+		toolbar_maps[0][-1][1].append('Source')
 	if formats:
-		toolbar_map[-1].insert(0, (None, 'Format'))
+		toolbar_maps[-1].insert(0, (None, 'Format'))
 	
 	toolbar = []
 	for map_ in toolbar_maps:
 		strip = [item for tag, item in map_ if tag is None or allowed(tag)]
+		# ensure that lone items are wrapped in a list:
+		strip = [item if not isinstance(item, basestring) else [item] for item in strip]
 		toolbar.append(sum(strip, []))  # flatten
 	
 	config = {
 		'toolbar': toolbar,
 		'stylesSet': styles_set,
-		'format_tags': format_tags
+		'format_tags': formats
 	}
 	
 	return config
