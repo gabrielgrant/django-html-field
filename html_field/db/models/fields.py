@@ -1,8 +1,10 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from html_field import forms.HTMLField
+from django.utils.translation import ugettext as _
 from django.contrib import admin
-import html_field.widgets
+
+from html_field import forms
+from html_field.forms import widgets
 
 class HTMLField(models.TextField):
     """
@@ -12,7 +14,7 @@ class HTMLField(models.TextField):
     #default_validators = [validators.validate_email]
     description = _("HTML content")
 
-    def __init__(self, html_cleaner, *args, **kwargs):
+    def __init__(self, html_cleaner=None, *args, **kwargs):
         self.html_cleaner = html_cleaner
         super(HTMLField, self).__init__(self, *args, **kwargs)
 
@@ -27,23 +29,22 @@ class HTMLField(models.TextField):
         defaults.update(kwargs)
 
         if defaults['widget'] == admin.widgets.AdminTextareaWidget:
-            defaults['widget'] = html_field.widgets.AdminHTMLWidget
+            defaults['widget'] = widgets.AdminHTMLWidget
         
         return super(HTMLField, self).formfield(**defaults)
-    def clean(self, value):
+    def clean(self, value, model_instance):
         """
         Validates the given value using the provided HTMLCleaner
         and returns its "cleaned" value as a Python object.
 
         Raises ValidationError for any errors.
         """
-        value = super(HTMLField, self).clean(value)
+        value = super(HTMLField, self).clean(value, model_instance)
         try:
         	value = self.html_cleaner.clean(value)
         except ValueError, e:
         	raise ValidationError(*e.args)
         return value
-
 
 try:
     from south.modelsinspector import add_introspection_rules

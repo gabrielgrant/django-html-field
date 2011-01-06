@@ -127,7 +127,23 @@ class HTMLCleaner(HTMLParser):
 		self.feed(data)
 		self.close()
 		return self._output
-		
+	
+	def __repr__(self):
+		return """HTMLCleaner(
+		indent=%s,
+		allow_tags=%s,
+		allow_attrs=%s,
+		allow_attrs_for_tag=%s,
+		on_disallowed_tag=%s,
+		indent_content=%s
+		)""" % tuple(repr(i) for i in (
+		self.indent,
+		self.allow_tags,
+		self.allow_attrs,
+		self.allow_attrs_for_tag,
+		self.on_disallowed_tag,
+		self.indent_content
+		))
 def test():
 	import html_cleaner
 	reload(html_cleaner)

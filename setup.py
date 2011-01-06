@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='django-html-field',
-    version='0.1dev',
+    version='0.1.2dev',
     packages=['html_field',],
     include_package_data=True,
     author='Gabriel Grant',
