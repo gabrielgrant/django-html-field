@@ -1,10 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext as _
-from django.contrib import admin
 
 from html_field import forms
-from html_field.forms import widgets
 
 class HTMLField(models.TextField):
     """
@@ -24,14 +22,14 @@ class HTMLField(models.TextField):
         # the value in the form field (to pass into widget for example).
         defaults = {
             'form_class': forms.HTMLField,
-            'html_cleaner': self.html_cleaner
+            'html_cleaner': self.html_cleaner,
         }
         defaults.update(kwargs)
-
-        if defaults['widget'] == admin.widgets.AdminTextareaWidget:
-            defaults['widget'] = widgets.AdminHTMLWidget
         
-        return super(HTMLField, self).formfield(**defaults)
+        # NOTE: we're calling the formfield method on TextField's
+        # superclass, *NOT* on TextField itself, since TextField
+        # injects a Textarea widget, which we don't want
+        return super(models.TextField, self).formfield(**defaults)
     def clean(self, value, model_instance):
         """
         Validates the given value using the provided HTMLCleaner
