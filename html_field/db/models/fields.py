@@ -16,7 +16,7 @@ class HTMLField(models.TextField):
 
     def __init__(self, html_cleaner=None, *args, **kwargs):
         self.html_cleaner = html_cleaner
-        super(HTMLField, self).__init__(self, *args, **kwargs)
+        return super(HTMLField, self).__init__(*args, **kwargs)
 
     def formfield(self, **kwargs):
         # Passing the HTMLProcessor to forms.HTMLField means that
