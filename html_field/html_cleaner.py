@@ -121,7 +121,16 @@ class HTMLCleaner(HTMLParser):
 	
 	def handle_data(self, data):
 		self._output += data
-		
+
+	def handle_charref(self, name):
+		self._output += '&#%s;' % name
+
+	def handle_entityref(self, name):
+		self._output += '&%s;' % name
+
+	def handle_comment(self, data):
+		self._output += '<!--%s-->' % data
+
 	def clean(self, data):
 		self.reset()
 		self.feed(data)
