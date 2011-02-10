@@ -42,5 +42,4 @@ class HTMLField(forms.Field):
             allow_tags = self.html_cleaner.allow_tags
             config = make_toolbar_config(allow_tags=allow_tags)
             attrs['ckeditor_config'] = config
-        print attrs
         return attrs
