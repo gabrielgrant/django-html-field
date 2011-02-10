@@ -13,7 +13,7 @@ def escape_tag(tag):
 	# leave "&"s, since those must already be escaped for the doc to be valid
 	return tag.replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#39;')
 
-class DisallowedTagError(Exception):
+class DisallowedTagError(ValueError):
 	pass
 
 class HTMLCleaner(HTMLParser):
