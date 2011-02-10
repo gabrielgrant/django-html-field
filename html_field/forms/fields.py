@@ -4,6 +4,7 @@ from django.utils.translation import ugettext as _
 
 from html_field.forms.widgets import HTMLWidget, AdminHTMLWidget
 from html_field.forms.widget_helper import make_toolbar_config
+from html_field.exceptions import DisallowedTagError
 from django.contrib import admin
 
 class HTMLField(forms.Field):
@@ -24,7 +25,7 @@ class HTMLField(forms.Field):
         value = super(HTMLField, self).clean(value)
         try:
             value = self.html_cleaner.clean(value)
-        except ValueError, e:
+        except DisallowedTagError, e:
             raise ValidationError(*e.args)
         return value
 

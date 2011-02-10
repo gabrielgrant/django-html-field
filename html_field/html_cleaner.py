@@ -1,5 +1,6 @@
 from HTMLParser import HTMLParser
 from xml.sax.saxutils import quoteattr
+from html_field.exceptions import DisallowedTagError
 
 all_HTML_tags=()
 default_allow_attrs=['class', 'style', 'title']
@@ -12,9 +13,6 @@ def escape_tag(tag):
 	# escape the text making up a tag
 	# leave "&"s, since those must already be escaped for the doc to be valid
 	return tag.replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#39;')
-
-class DisallowedTagError(ValueError):
-	pass
 
 class HTMLCleaner(HTMLParser):
 	def __init__(self,
