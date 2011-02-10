@@ -20,7 +20,7 @@ class HTMLCleaner(HTMLParser):
 		allow_tags=None,
 		allow_attrs=default_allow_attrs,
 		allow_attrs_for_tag=default_allow_attrs_for_tag,
-		on_disallowed_tag='strip',
+		on_disallowed_tag='error',
 		indent_content=True
 	):
 		"""
