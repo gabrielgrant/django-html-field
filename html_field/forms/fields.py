@@ -39,7 +39,9 @@ class HTMLField(forms.Field):
             isinstance(widget, ckeditor.widgets.CKEditor) and
             widget.ckeditor_config == 'default'
         ):
+            config = widget.get_ckeditor_config_dict()
             allow_tags = self.html_cleaner.allow_tags
-            config = make_toolbar_config(allow_tags=allow_tags)
-            attrs['ckeditor_config'] = config
+            new_config = make_toolbar_config(allow_tags=allow_tags)
+            new_config.update(config)
+            attrs['ckeditor_config'] = new_config
         return attrs
