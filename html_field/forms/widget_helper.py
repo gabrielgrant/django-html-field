@@ -33,7 +33,7 @@ def make_toolbar_config(allow_tags, exclude_tags=('div',), extra_styles=None, sh
 		('Cited Work', 'cite'),
 		('Inline Quotation', 'q'),
 	]
-	styles = [style for style in style_map if allowed(style[0])]
+	styles = [style for style in style_map if allowed(style[1])]
 	
 	styles_set_keys = ['name', 'element', 'styles', 'attributes']
 	styles_set = [dict(zip(styles_set_keys, style)) for style in styles]
